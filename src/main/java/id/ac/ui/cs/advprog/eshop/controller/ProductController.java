@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/product")
@@ -19,27 +18,29 @@ public class ProductController {
 
     @GetMapping("/create")
     public String createProductPage(Model model) {
-        model.addAttribute("product", new Product());
+        Product product = new Product();
+        model.addAttribute("product", product);
         return "createProduct";
     }
 
     @PostMapping("/create")
-    public String createProductPost(@ModelAttribute Product product) {
+    public String createProductPost(@ModelAttribute Product product, Model model) {
         service.create(product);
-        return "redirect:/product/list";
+        return "redirect:list";
     }
 
     @GetMapping("/list")
     public String productListPage(Model model) {
-        model.addAttribute("products", service.findAll());
+        List<Product> allProducts = service.findAll();
+        model.addAttribute("products", allProducts);
         return "productList";
     }
 
     @GetMapping("/edit/{productId}")
     public String editProductPage(@PathVariable String productId, Model model) {
-        Optional<Product> product = service.findById(productId);
-        if (product.isPresent()) {
-            model.addAttribute("product", product.get());
+        Product product = service.findById(productId);
+        if (product != null) {
+            model.addAttribute("product", product);
             return "editProduct";
         }
         return "redirect:/product/list";

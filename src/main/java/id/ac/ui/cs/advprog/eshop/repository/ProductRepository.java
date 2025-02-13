@@ -21,14 +21,20 @@ public class ProductRepository {
         return productData.iterator();
     }
 
-    public Optional<Product> findById(String productId) {
-        return productData.stream().filter(p -> p.getProductId().equals(productId)).findFirst();
+    public Product findById(String productId) {
+        for (Product product : productData) {
+            if (product.getProductId().equals(productId)) {
+                return product;
+            }
+        }
+        return null;
     }
 
     public void update(Product updatedProduct) {
-        findById(updatedProduct.getProductId()).ifPresent(existingProduct -> {
+        Product existingProduct = findById(updatedProduct.getProductId());
+        if (existingProduct != null) {
             existingProduct.setProductName(updatedProduct.getProductName());
             existingProduct.setProductQuantity(updatedProduct.getProductQuantity());
-        });
+        }
     }
 }
