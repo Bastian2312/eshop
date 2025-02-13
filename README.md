@@ -25,7 +25,7 @@ Pada tutorial ini, saya menerapkan dua fitur baru menggunakan Spring Boot dan me
         return "redirect:/product/list";
     }
     ```
-    - Nama metode dan parameternya memudahkan untuk memahami tujuannya tanpa memerlukan komentar tambahan.
+   Nama metode dan parameternya memudahkan untuk memahami tujuannya tanpa memerlukan komentar tambahan.
 
 2. **Single Responsibility Principle (SRP)**
     - Kelas dipisahkan berdasarkan tanggung jawabnya masing-masing:
@@ -46,8 +46,7 @@ Pada tutorial ini, saya menerapkan dua fitur baru menggunakan Spring Boot dan me
         return null;
     }
     ```
-
-    - metode kode ini hanya perlu dibuat sekali saja dan dapat digunakan berkali-kali sehingga menghindari duplikasi kode
+Metode kode ini hanya perlu dibuat sekali saja dan dapat digunakan berkali-kali sehingga menghindari duplikasi kode
 
 ### **Praktik Secure Coding yang Diterapkan**
 
