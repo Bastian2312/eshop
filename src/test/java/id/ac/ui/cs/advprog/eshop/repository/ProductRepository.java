@@ -65,4 +65,54 @@ class ProductRepositoryTest {
         assertEquals(product2.getProductId(), savedProduct.getProductId());
         assertFalse(productIterator.hasNext());
     }
+
+    @Test
+    void testUpdateProductPositiveScenario() {
+        Product product = new Product();
+        product.setProductId("123");
+        product.setProductName("Old Name");
+        product.setProductQuantity(10);
+        productRepository.create(product);
+
+        Product updatedProduct = new Product();
+        updatedProduct.setProductId("123");
+        updatedProduct.setProductName("New Name");
+        updatedProduct.setProductQuantity(20);
+        productRepository.update(updatedProduct);
+
+        Product retrievedProduct = productRepository.findById("123");
+        assertNotNull(retrievedProduct);
+        assertEquals("New Name", retrievedProduct.getProductName());
+        assertEquals(20, retrievedProduct.getProductQuantity());
+    }
+
+    @Test
+    void testUpdateProductNegativeScenario() {
+        Product updatedProduct = new Product();
+        updatedProduct.setProductId("999"); // Non-existent ID
+        updatedProduct.setProductName("Non Existent Product");
+        updatedProduct.setProductQuantity(5);
+        productRepository.update(updatedProduct);
+
+        Product retrievedProduct = productRepository.findById("999");
+        assertNull(retrievedProduct);
+    }
+
+    @Test
+    void testDeleteProductPositiveScenario() {
+        Product product = new Product();
+        product.setProductId("456");
+        product.setProductName("Test Product");
+        product.setProductQuantity(30);
+        productRepository.create(product);
+
+        productRepository.deleteById("456");
+        assertNull(productRepository.findById("456"));
+    }
+
+    @Test
+    void testDeleteProductNegativeScenario() {
+        productRepository.deleteById("999"); // Non-existent ID
+        assertNull(productRepository.findById("999"));
+    }
 }
