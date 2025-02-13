@@ -86,5 +86,41 @@ Metode findById saat ini mengembalikan null jika produk tidak ditemukan. Sebagai
 
 Dengan menerapkan prinsip-prinsip di atas, kode saya menjadi lebih bersih, aman, dan mudah dipelihara. Ke depannya, saya akan lebih memperhatikan aspek keamanan dan clean code untuk meningkatkan kualitas pengembangan software saya.
 
+## Refleksi 2
+
+Membuat kelas pengujian fungsional baru yang mirip dengan CreateProductFunctionalTest.java dengan setup dan variabel instans yang sama dapat menurunkan kualitas kode karena menyebabkan duplikasi kode (code duplication). Duplikasi ini meningkatkan kompleksitas maintenance karena setiap perubahan dalam prosedur setup harus diterapkan di beberapa tempat, berisiko menciptakan inkonsistensi. Selain itu, kurangnya pemisahan tanggung jawab membuat struktur kode menjadi kurang modular dan sulit diperluas. 
+
+Untuk meningkatkan kebersihan kode, kita bisa terapkan BaseFunctionalTest sebagai base class yang menangani setup umum, sehingga class test baru dapat mewarisinya tanpa menulis ulang kode yang sama contoh:
+
+```java
+public abstract class BaseFunctionalTest {
+    protected WebDriver driver;
+    protected String baseUrl;
+
+    @BeforeEach
+    public void setUp() {
+        driver = new ChromeDriver();
+        baseUrl = "http://example.com";
+        driver.get(baseUrl);
+    }
+
+    @AfterEach
+    public void tearDown() {
+        driver.quit();
+    }
+}
+```
+
+Class test baru seperti VerifyProductCountTest dan CreateProductFunctionalTest bisa extend (inherit) kelas ini sehingga menghindari duplikasi misal,
+
+```java
+public class VerifyProductCountTest extends BaseFunctionalTest {
+    @Test
+    public void testProductCount() {
+        List<WebElement> products = driver.findElements(By.className("product-item"));
+        assertEquals(expectedCount, products.size());
+    }
+}
+```
 </details>
 
