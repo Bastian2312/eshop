@@ -8,7 +8,7 @@ import java.util.UUID;
 public class Product {
     private String productId;
     private String productName;
-    private String productQuantity;
+    private int productQuantity;
 
     public Product() {
         this.productId = UUID.randomUUID().toString(); // Auto-generate UUID
