@@ -1,37 +1,40 @@
 package id.ac.ui.cs.advprog.eshop.functional;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.AfterEach;
+import io.github.bonigarcia.seljup.SeleniumJupiter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
+@SpringBootTest(webEnvironment = RANDOM_PORT)
+@ExtendWith(SeleniumJupiter.class)
 public class CreateProductFunctionalTest {
-    private WebDriver driver;
+
+    @LocalServerPort
+    private int serverPort;
+
+    @Value("${app.baseUrl:http://localhost}")
+    private String testBaseUrl;
+
+    private String baseUrl;
 
     @BeforeEach
-    public void setup() {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-    }
-
-    @AfterEach
-    public void teardown() {
-        if (driver != null) {
-            driver.quit();
-        }
+    void setUp() {
+        baseUrl = String.format("%s:%d", testBaseUrl, serverPort);
     }
 
     @Test
-    public void testCreateProduct() {
+    public void testCreateProduct(ChromeDriver driver) {
         // Navigate to the create product page
-        driver.get("http://localhost:8080/product/create");
+        driver.get(baseUrl + "/product/create");
 
         // Find and fill the product name input
         WebElement nameInput = driver.findElement(By.id("nameInput"));
@@ -46,7 +49,7 @@ public class CreateProductFunctionalTest {
         submitButton.click();
 
         // Navigate to the product list page
-        driver.get("http://localhost:8080/product/list");
+        driver.get(baseUrl + "/product/list");
 
         // Verify that the new product appears in the list
         WebElement table = driver.findElement(By.tagName("table"));
