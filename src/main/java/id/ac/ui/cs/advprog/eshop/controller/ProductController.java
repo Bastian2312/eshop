@@ -16,11 +16,16 @@ public class ProductController {
     @Autowired
     private ProductService service;
 
+    @GetMapping("")
+    public String homePage(Model model) {
+        return "Home";
+    }
+
     @GetMapping("/create")
     public String createProductPage(Model model) {
         Product product = new Product();
         model.addAttribute("product", product);
-        return "createProduct";
+        return "CreateProduct";
     }
 
     @PostMapping("/create")
@@ -33,7 +38,7 @@ public class ProductController {
     public String productListPage(Model model) {
         List<Product> allProducts = service.findAll();
         model.addAttribute("products", allProducts);
-        return "productList";
+        return "ProductList";
     }
 
     @GetMapping("/edit/{productId}")
@@ -41,7 +46,7 @@ public class ProductController {
         Product product = service.findById(productId);
         if (product != null) {
             model.addAttribute("product", product);
-            return "editProduct";
+            return "EditProduct";
         }
         return "redirect:/product/list";
     }
