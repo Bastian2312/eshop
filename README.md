@@ -3,7 +3,7 @@ NPM: 2306245005\
 Kelas: Pemrograman Lanjut B
 
 <details>
-    <summary><b>Tutorial 1</b></summary>
+    <summary><b>Modul 1</b></summary>
 
 ## Refleksi 1
 
@@ -124,3 +124,20 @@ public class VerifyProductCountTest extends BaseFunctionalTest {
 ```
 </details>
 
+<details>
+    <summary><b>Modul 2</b></summary>
+
+### Code quality Issue(s) fixed
+Selama exercise, saya menemukan beberapa code quality issues, seperti repetisi kode dalam test suite, kurangnya modularitas dalam setup test, dan kurangnya validasi pada beberapa bagian kode. Strategi utama yang saya gunakan untuk memperbaiki ini sebagai berikut:
+   - **Repetisi kode pada unit test**: Beberapa test case memiliki setup yang sama, yang melanggar prinsip DRY (Don't Repeat Yourself). Saya mengatasinya dengan membuat base test class yang menyimpan setup umum agar dapat digunakan kembali oleh berbagai functional test.
+   - **Pengecekan edge case**: Beberapa unit test hanya menguji skenario umum tanpa mempertimbangkan input ekstrem atau kondisi batas. Saya menambahkan boundary test untuk memastikan kode menangani skenario yang tidak biasa dengan baik.
+   - **Peringatan code linting**: Beberapa bagian kode memiliki peringatan dari static analysis tool terkait formatting dan naming conventions. Saya memperbaikinya dengan mengikuti standar yang disarankan oleh linter PMD.
+
+### CI/CD workflows Implementation
+Menurut saya, implementasi CI/CD saat ini sudah memenuhi definisi Continuous Integration (CI) dan Continuous Deployment (CD) dengan cukup baik. Continuous Integration telah terpenuhi karena setiap commit dan merge request secara otomatis menjalankan unit test dan analisis kode untuk memastikan bahwa perubahan yang dilakukan tidak merusak fungsionalitas yang ada. Selain itu, linting dan code quality checks yang diterapkan membantu menjaga standar kode tetap tinggi.
+
+Dari sisi Continuous Deployment, proses yang diterapkan memungkinkan aplikasi untuk secara otomatis dideploy ke PaaS setelah semua tahap pengujian berhasil dilewati. Ini berarti setiap perubahan yang telah diverifikasi dapat langsung tersedia tanpa intervensi manual, sehingga mempersingkat waktu pengiriman fitur baru ke pengguna.
+
+Namun, untuk lebih meningkatkan CI/CD pipeline ini, bisa dilakukan optimasi seperti caching dependencies agar pipeline berjalan lebih cepat atau menambahkan end-to-end testing untuk memastikan bahwa seluruh aplikasi bekerja dengan baik setelah deployment.
+
+</details>
