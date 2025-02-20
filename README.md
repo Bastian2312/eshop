@@ -130,7 +130,8 @@ public class VerifyProductCountTest extends BaseFunctionalTest {
 
 - Repetisi kode pada unit test: Beberapa test case memiliki setup yang sama, yang melanggar prinsip DRY (Don't Repeat Yourself). Saya mengatasinya dengan membuat base test class yang menyimpan setup umum agar dapat digunakan kembali oleh berbagai functional test.
 - Pengecekan edge case: Beberapa unit test hanya menguji skenario umum tanpa mempertimbangkan input ekstrem atau kondisi batas. Saya menambahkan boundary test untuk memastikan kode menangani skenario yang tidak biasa dengan baik.
-- Peringatan code linting: Beberapa bagian kode memiliki peringatan dari static analysis tool terkait formatting dan naming conventions. Saya memperbaikinya dengan mengikuti standar yang disarankan oleh linter PMD
+- Peringatan code linting: Beberapa bagian kode memiliki peringatan dari static analysis tool terkait formatting dan naming conventions. Saya memperbaikinya dengan mengikuti standar yang disarankan oleh linter PMD\
+
 2) Menurut saya, implementasi CI/CD saat ini sudah memenuhi definisi Continuous Integration (CI) dan Continuous Deployment (CD) dengan cukup baik. Continuous Integration telah terpenuhi karena setiap commit dan merge request secara otomatis menjalankan unit test dan analisis kode untuk memastikan bahwa perubahan yang dilakukan tidak merusak fungsionalitas yang ada. Selain itu, linting dan code quality checks yang diterapkan membantu menjaga standar kode tetap tinggi.
 
 Dari sisi Continuous Deployment, proses yang diterapkan memungkinkan aplikasi untuk secara otomatis dideploy ke PaaS setelah semua tahap pengujian berhasil dilewati. Ini berarti setiap perubahan yang telah diverifikasi dapat langsung tersedia tanpa intervensi manual, sehingga mempersingkat waktu pengiriman fitur baru ke pengguna.
