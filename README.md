@@ -141,3 +141,46 @@ Dari sisi Continuous Deployment, proses yang diterapkan memungkinkan aplikasi un
 Namun, untuk lebih meningkatkan CI/CD pipeline ini, bisa dilakukan optimasi seperti caching dependencies agar pipeline berjalan lebih cepat atau menambahkan end-to-end testing untuk memastikan bahwa seluruh aplikasi bekerja dengan baik setelah deployment.
 
 </details>
+
+<details>
+    <summary><b>Modul 3</b></summary>
+
+### 1) Prinsip-prinsip SOLID yang Diterapkan dalam Proyek
+#### Single Responsibility Principle (SRP)
+Dalam modifikasi kode, saya memisahkan CarController dari ProductController sehingga setiap kelas memiliki role sendiri, contohnya:
+
+- CarController sekarang hanya menangani operasi HTTP terkait mobil
+- CarRepository khusus mengelola penyimpanan data mobil
+- CarServiceImpl fokus pada logika bisnis terkait mobil
+
+#### Open/Closed Principle (OCP)
+Saya memperkenalkan interface generik yang memungkinkan ekstensi tanpa memodifikasi kode yang sudah ada:
+
+- Interface GenericRepository<T> memungkinkan pembuatan repository baru tanpa mengubah kode yang ada
+- Model Car mengimplementasikan interface Identifiable, membuatnya terbuka untuk ekstensi
+
+#### Liskov Substitution Principle (LSP)
+Saya menghilangkan inheritance yang tidak tepat antara CarController dan ProductController:
+
+- Sebelumnya, CarController inherit dari ProductController namun tidak berperilaku sebagai subtipe yang tepat
+- Desain baru memungkinkan substitusi yang benar melalui interface
+
+#### Interface Segregation Principle (ISP)
+Saya membuat interface yang terfokus dengan metode spesifik:
+
+- Interface Identifiable hanya memiliki metode yang dibutuhkan untuk identifikasi objek
+- CarService hanya mendeklarasikan metode yang dibutuhkan untuk operasi mobil
+
+#### Dependency Inversion Principle (DIP)
+Saya menerapkan prinsip ini dengan membuat high dan low level modul bergantung pada abstraksi:
+
+- CarServiceImpl bergantung pada interface CarRepository, bukan implementasi konkret
+- CarController bergantung pada interface CarService
+
+
+### 2) Keuntungan Menerapkan Prinsip SOLID dalam Proyek
+Penerapan prinsip SOLID dalam proyek ini secara signifikan meningkatkan kualitas dan maintainability kode. Dengan memisahkan tanggung jawab antar kelas, kode menjadi lebih terorganisir dan mudah dipahami. Interface generik seperti GenericRepository dan Identifiable memungkinkan pengembangan fitur baru tanpa memodifikasi kode yang sudah ada, mengurangi risiko bug dan mempercepat proses pengembangan. Penghapusan inheritance yang tidak tepat antara controller membuat sistem lebih stabil dan dapat diprediksi, sementara penggunaan interface kecil dan terfokus mengurangi ketergantungan yang tidak perlu. Dengan memastikan komponen bergantung pada abstraksi bukan implementasi konkret, sistem menjadi lebih fleksibel dan mudah diuji.
+
+### 3) Kerugian Tidak Menerapkan Prinsip SOLID dalam Proyek
+Tidak menerapkan prinsip SOLID dalam proyek dapat menyebabkan berbagai masalah jangka panjang yang serius. Code menjadi sulit dipahami dan maintained karena classes memiliki terlalu banyak tanggung jawab (too many responsibilities) dan tightly coupled. Pengembangan new features menjadi berisiko tinggi karena sering kali memerlukan modifikasi existing code, meningkatkan kemungkinan bugs. Inheritance yang tidak tepat, seperti antara CarController dan ProductController, menciptakan confusing class hierarchy dengan perilaku yang sulit diprediksi. Large interfaces memaksa classes untuk mengimplementasikan metode yang tidak relevan, sementara ketergantungan pada concrete implementations membuat sistem rigid dan sulit diuji (difficult to test). Akibatnya, pengembangan menjadi lebih slow, kode lebih rentan terhadap bugs, dan biaya maintenance meningkat seiring waktu karena setiap perubahan berpotensi menyebabkan ripple effects ke seluruh sistem.
+</details>
