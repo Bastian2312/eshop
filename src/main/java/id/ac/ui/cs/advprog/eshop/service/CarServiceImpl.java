@@ -16,9 +16,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Car create(Car car) {
-        // TODO Auto-generated method stub
-        carRepository.create(car);
-        return car;
+        return carRepository.create(car);
     }
 
     @Override
@@ -31,19 +29,16 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Car findById(String carId) {
-        Car car = carRepository.findById(carId);
-        return car;
+        return carRepository.findById(carId);
     }
 
     @Override
-    public void update(String carId, Car car) {
-        // TODO Auto-generated method stub
-        carRepository.update(carId, car);
+    public Car update(String carId, Car car) {
+        return carRepository.update(carId, car);
     }
 
     @Override
     public void deleteCarById(String carId) {
-        // TODO Auto-generated method stub
         carRepository.delete(carId);
     }
 }
