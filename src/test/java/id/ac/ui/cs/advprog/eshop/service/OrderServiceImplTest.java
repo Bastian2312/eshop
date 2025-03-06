@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @ExtendWith(MockitoExtension.class)
-class OrderServiceTest {
+class OrderServiceImplTest {
 
     @InjectMocks
     OrderServiceImpl orderService;
@@ -51,7 +51,7 @@ class OrderServiceTest {
         doReturn(order).when(orderRepository).save(order);
 
         Order result = orderService.createOrder(order);
-        verify(orderRepository, times(1).save(order));
+        verify(orderRepository, times(1)).save(order);
         assertEquals(order.getId(), result.getId());
     }
 
@@ -61,7 +61,7 @@ class OrderServiceTest {
         doReturn(order).when(orderRepository).findById(order.getId());
 
         assertNull(orderService.createOrder(order));
-        verify(orderRepository, times(0).save(order));
+        verify(orderRepository, times(0)).save(order);
     }
 
     @Test
