@@ -5,6 +5,8 @@ import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Payment;
 import id.ac.ui.cs.advprog.eshop.repository.PaymentRepository;
+import id.ac.ui.cs.advprog.eshop.validator.CashOnDeliveryValidator;
+import id.ac.ui.cs.advprog.eshop.validator.VoucherValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,13 +39,13 @@ public class PaymentServiceImpl implements PaymentService {
 
     private String determineInitialStatus(String method, Map<String, String> paymentData) {
         if (PaymentMethod.VOUCHER.getValue().equals(method)) {
-            return validateVoucher(paymentData.get("voucherCode"))
+            return VoucherValidator.isValid(paymentData.get("voucherCode"))
                     ? PaymentStatus.SUCCESS.getValue()
                     : PaymentStatus.REJECTED.getValue();
         }
 
         if (PaymentMethod.CASH_ON_DELIVERY.getValue().equals(method)) {
-            return validateCashOnDelivery(paymentData)
+            return CashOnDeliveryValidator.isValid(paymentData)
                     ? PaymentStatus.SUCCESS.getValue()
                     : PaymentStatus.REJECTED.getValue();
         }
@@ -51,19 +53,7 @@ public class PaymentServiceImpl implements PaymentService {
         return PaymentStatus.WAITING.getValue();
     }
 
-    private boolean validateVoucher(String voucherCode) {
-        return voucherCode != null &&
-                voucherCode.startsWith("ESHOP") &&
-                voucherCode.length() == 16 &&
-                voucherCode.chars().filter(Character::isDigit).count() == 8;
-    }
-
-    private boolean validateCashOnDelivery(Map<String, String> paymentData) {
-        return paymentData.containsKey("address") &&
-                !paymentData.get("address").isEmpty() &&
-                paymentData.containsKey("deliveryFee") &&
-                !paymentData.get("deliveryFee").isEmpty();
-    }
+    // Removed validation methods
 
     @Override
     public Payment setStatus(Payment payment, String status) {
