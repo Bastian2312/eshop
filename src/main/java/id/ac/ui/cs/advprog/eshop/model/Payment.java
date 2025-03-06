@@ -1,5 +1,7 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentMethod;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import lombok.Builder;
 import lombok.Getter;
 import java.util.Map;
@@ -17,7 +19,7 @@ public class Payment {
         this.id = id;
         this.orderId = orderId;
 
-        if (!isValidMethod(method)) {
+        if (!PaymentMethod.contains(method)) {
             throw new IllegalArgumentException();
         }
         this.method = method;
@@ -27,17 +29,9 @@ public class Payment {
     }
 
     public void setStatus(String status) {
-        if (!isValidStatus(status)) {
+        if (!PaymentStatus.contains(status)) {
             throw new IllegalArgumentException();
         }
         this.status = status;
-    }
-
-    private boolean isValidMethod(String method) {
-        return method.equals("VOUCHER") || method.equals("CASH_ON_DELIVERY");
-    }
-
-    private boolean isValidStatus(String status) {
-        return status.equals("SUCCESS") || status.equals("REJECTED") || status.equals("WAITING");
     }
 }
