@@ -2,71 +2,40 @@ package id.ac.ui.cs.advprog.eshop.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PaymentTest {
-    private Map<String, String> voucherInfo;
-    private Map<String, String> codInfo;
-    private Order testOrder;
+class PaymentTest {
+    private Map<String, String> paymentData;
 
     @BeforeEach
     void setUp() {
-        voucherInfo = new HashMap<>();
-        voucherInfo.put("voucherCode", "ESHOP2024DISC50");
-
-        codInfo = new HashMap<>();
-        codInfo.put("address", "Jl. Mawar No. 10");
-        codInfo.put("deliveryFee", "15000");
-
-        testOrder = new Order("ORDER12345", 250000);
+        paymentData = new HashMap<>();
+        paymentData.put("voucherCode", "ESHOP1234567890");
     }
 
     @Test
-    void testInvalidPaymentCreation() {
-        assertAll(
-                () -> assertThrows(IllegalArgumentException.class, () -> new Payment(null, voucherInfo, testOrder)),
-                () -> assertThrows(IllegalArgumentException.class, () -> new Payment("", voucherInfo, testOrder)),
-                () -> assertThrows(IllegalArgumentException.class, () -> new Payment("VOUCHER", null, testOrder)),
-                () -> assertThrows(IllegalArgumentException.class, () -> new Payment("COD", codInfo, null))
-        );
+    void testCreatePaymentValid() {
+        Payment payment = new Payment("1", "ORDER-123", "VOUCHER", "SUCCESS", paymentData);
+
+        assertEquals("1", payment.getId());
+        assertEquals("ORDER-123", payment.getOrderId());
+        assertEquals("VOUCHER", payment.getMethod());
+        assertEquals("SUCCESS", payment.getStatus());
+        assertEquals(paymentData, payment.getPaymentData());
     }
 
     @Test
-    void testVoucherValidation() {
-        Map<String, String> invalidVoucher = new HashMap<>();
-        invalidVoucher.put("voucherCode", "INVALIDCODE123");
-        Payment payment = new Payment("VOUCHER", invalidVoucher, testOrder);
-        assertEquals("REJECTED", payment.getStatus());
+    void testCreatePaymentInvalidMethod() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Payment("1", "ORDER-123", "INVALID", "SUCCESS", paymentData);
+        });
     }
 
     @Test
-    void testCODValidation() {
-        Map<String, String> invalidCOD = new HashMap<>();
-        invalidCOD.put("address", "");
-        invalidCOD.put("deliveryFee", "15000");
-        Payment payment = new Payment("COD", invalidCOD, testOrder);
-        assertEquals("REJECTED", payment.getStatus());
-    }
-
-    @Test
-    void testInvalidPaymentMethod() {
-        assertThrows(IllegalArgumentException.class, () -> new Payment("BITCOIN", voucherInfo, testOrder));
-    }
-
-    @Test
-    void testSuccessfulPaymentCreation() {
-        Payment voucherPayment = new Payment("VOUCHER", voucherInfo, testOrder);
-        assertEquals("SUCCESS", voucherPayment.getStatus());
-        assertSame(voucherInfo, voucherPayment.getPaymentData());
-        assertSame(testOrder, voucherPayment.getOrder());
-
-        Payment codPayment = new Payment("COD", codInfo, testOrder);
-        assertEquals("SUCCESS", codPayment.getStatus());
-        assertSame(codInfo, codPayment.getPaymentData());
-        assertSame(testOrder, codPayment.getOrder());
+    void testSetInvalidStatus() {
+        Payment payment = new Payment("1", "ORDER-123", "VOUCHER", "SUCCESS", paymentData);
+        assertThrows(IllegalArgumentException.class, () -> payment.setStatus("INVALID"));
     }
 }
