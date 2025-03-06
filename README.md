@@ -184,3 +184,16 @@ Penerapan prinsip SOLID dalam proyek ini secara signifikan meningkatkan kualitas
 ### 3) Kerugian Tidak Menerapkan Prinsip SOLID dalam Proyek
 Tidak menerapkan prinsip SOLID dalam proyek dapat menyebabkan berbagai masalah jangka panjang yang serius. Code menjadi sulit dipahami dan maintained karena classes memiliki terlalu banyak tanggung jawab (too many responsibilities) dan tightly coupled. Pengembangan new features menjadi berisiko tinggi karena sering kali memerlukan modifikasi existing code, meningkatkan kemungkinan bugs. Inheritance yang tidak tepat, seperti antara CarController dan ProductController, menciptakan confusing class hierarchy dengan perilaku yang sulit diprediksi. Large interfaces memaksa classes untuk mengimplementasikan metode yang tidak relevan, sementara ketergantungan pada concrete implementations membuat sistem rigid dan sulit diuji (difficult to test). Akibatnya, pengembangan menjadi lebih slow, kode lebih rentan terhadap bugs, dan biaya maintenance meningkat seiring waktu karena setiap perubahan berpotensi menyebabkan ripple effects ke seluruh sistem.
 </details>
+
+<details>
+    <summary><b>Modul 4</b></summary>
+
+### 1) Pemanfaatan TDD
+Berdasarkan pertanyaan reflektif yang diajukan oleh Percival (2017) dalam Principles and Best Practice of Testing, saya merasa bahwa alur TDD cukup bermanfaat dalam membantu saya memahami spesifikasi kode dengan lebih baik dan memastikan setiap perubahan diuji sebelum diimplementasikan. Namun, saya juga menyadari bahwa terkadang saya masih kurang dalam menentukan cakupan pengujian yang optimal, terutama dalam menguji skenario ekstrem (edge cases).
+
+### 2) Prinsip F.I.R.S.T pada Unit Test
+Tes yang dibuat telah memenuhi sebagian besar prinsip F.I.R.S.T. Dari aspek Fast, tes berjalan cepat karena tidak bergantung pada sumber eksternal seperti database—contohnya, penggunaan mock pada OrderServiceImplTest untuk menghindari operasi I/O. Prinsip Independent tercapai dengan @BeforeEach yang mengatur ulang data sebelum tiap tes, mencegah interferensi antar skenario. Tes juga Repeatable karena menggunakan data statis (ID tetap, timestamp spesifik) yang menjamin konsistensi hasil. Untuk Self-Validating, semua tes memiliki assertion jelas seperti assertEquals atau assertThrows, sehingga hasilnya objektif. Timely terpenuhi karena tes ditulis paralel dengan implementasi fitur, meskipun beberapa edge case mungkin perlu diuji lebih awal.
+
+Namun, ada beberapa area perbaikan. Pertama, untuk Independent, perlu dipastikan mocking di kelas seperti OrderServiceImplTest benar-benar terisolasi agar konfigurasi mock tidak leak ke tes lain. Kedua, Self-Validating bisa ditingkatkan dengan memeriksa properti lengkap objek (misalnya, di testFindByIdIfIdFound, tambahkan assert untuk status dan author). Ketiga, Timely membutuhkan penambahan skenario abnormal (input kosong, karakter khusus). Selanjutnya, perlu memperluas cakupan tes untuk kasus ekstrem seperti ID tidak valid atau nilai numerik negatif, serta memastikan semua jalur logika (termasuk exception) teruji.
+
+</details>
