@@ -1,24 +1,28 @@
 package id.ac.ui.cs.advprog.eshop.repository;
 
 import id.ac.ui.cs.advprog.eshop.model.Payment;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 
 public class PaymentRepository {
-    private Map<String, Payment> paymentMap = new HashMap<>();
+    private Map<String, Payment> paymentData;
+
+    public PaymentRepository() {
+        paymentData = new HashMap<>();
+    }
 
     public Payment save(Payment payment) {
-        paymentMap.put(payment.getId(), payment);
+        paymentData.put(payment.getId(), payment);
         return payment;
     }
 
     public Payment findById(String id) {
-        return paymentMap.get(id);
+        return paymentData.get(id);
     }
 
     public List<Payment> findAll() {
-        return new ArrayList<>(paymentMap.values());
+        return new ArrayList<>(paymentData.values());
     }
 }
